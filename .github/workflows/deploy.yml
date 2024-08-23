@@ -50,5 +50,5 @@ jobs:
             sudo docker image prune -f
 
             sudo docker run -p 3008:3000 \
-            --name front-test-opuma -d -  ${{secrets.DOCKER_USERNAME}}/front-test-opuma:latest
+            --name front-test-opuma -d ${{secrets.DOCKER_USERNAME}}/front-test-opuma:latest
           EOF
