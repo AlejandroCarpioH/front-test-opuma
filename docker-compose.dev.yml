@@ -1,0 +1,15 @@
+services:
+  front-test-opuma:
+    container_name: front-test-opuma
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      - WATCHPACK_POLLING=true
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+      - /app/taildwind.config.ts
+    ports:
+      - 3000:3000
