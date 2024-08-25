@@ -25,28 +25,29 @@ jobs:
           context: .
           push: true
           tags: ${{secrets.DOCKER_USERNAME}}/front-test-opuma:latest
-          
+
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{secrets.AWS_PRINCIPAL_KEY}}
-            
+
           #- name: Add EC2 to known_hosts
           #run: |
           #   ssh-keyscan -H ec2-3-132-99-76.us-east-2.compute.amazonaws.com >> ~/.ssh/known_hosts
-            
+
           #- name: Copy File with SCP
           #run: |
           #ls ~/
           #scp -o StrictHostKeyChecking=no ~/work/dockerviteweb/dockerviteweb/docker-compose.prod.yml ubuntu@ec2-3-132-99-76.us-east-2.compute.amazonaws.com:/home/ubuntu/
-      
+
       - name: Deploy via SSH
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@ec2-3-132-99-76.us-east-2.compute.amazonaws.com << 'EOF'
             # sudo docker network create mynetwork
             sudo docker stop front-test-opuma
             sudo docker rm front-test-opuma
-            sudo docker pull  ${{secrets.DOCKER_USERNAME}}/front-test-opuma:latest
+            sudo docker rmi koyotee/front-test-opuma:latest
+            sudo docker pull ${{secrets.DOCKER_USERNAME}}/front-test-opuma:latest
             sudo docker image prune -f
 
             sudo docker run -p 3008:3000 \

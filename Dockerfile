@@ -6,17 +6,22 @@ COPY package*.json .
 
 RUN npm ci
 
-RUN npm i -g pm2
+# RUN npm i -g pm2
 
 COPY . .
 
 RUN npm run build
 
-# FROM nginx:stable-alpine
+FROM node:20-alpine
 
-# COPY --from=build /app/.next /usr/share/nginx/html 
+WORKDIR /app
 
-# COPY ./nginx/default.conf /ext/nginx/conf.d
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/package*.json ./
+COPY --from=build /app/.next ./.next
+COPY --from=build /app/public ./public
+
+RUN npm i -g pm2
 
 EXPOSE 3008
 
