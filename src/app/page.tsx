@@ -5,11 +5,9 @@ import {
   CardHeader,
   Typography,
 } from "@material-tailwind/react";
-import AsyncSelect from "react-select/async";
+import dynamic from "next/dynamic";
 import Select from "react-select";
-import Chart from "react-apexcharts";
-import ReactApexChart from "react-apexcharts";
-// import { Square3Stack3DIcon } from "@heroicons/react/24/coutline";
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 export default function Home() {
   const chartConfig: any = {
     type: "line",
